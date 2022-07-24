@@ -14,7 +14,7 @@ def add_gd_download(link, listener, is_gdtot):
     if res != "":
         return sendMessage(res, listener.bot, listener.message)
     if STOP_DUPLICATE and not listener.isLeech:
-        LOGGER.info('Checking File/Folder if already in Drive...')
+        LOGGER.info('Checking File/Folder Maybe Already Generated')
         if listener.isZip:
             gname = name + ".zip"
         elif listener.extract:
@@ -25,7 +25,7 @@ def add_gd_download(link, listener, is_gdtot):
         if gname is not None:
             gmsg, button = GoogleDriveHelper().drive_list(gname, True)
             if gmsg:
-                msg = "File/Folder is already available in Drive.\nHere are the search results:"
+                msg = "File/Folder Already Generated.\nResults - "
                 return sendMarkup(msg, listener.bot, listener.message, button)
     if any([ZIP_UNZIP_LIMIT, STORAGE_THRESHOLD, TORRENT_DIRECT_LIMIT]):
         arch = any([listener.extract, listener.isZip])
