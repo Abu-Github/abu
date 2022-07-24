@@ -15,9 +15,9 @@ def mirror_status(update, context):
         if len(download_dict) == 0:
             currentTime = get_readable_time(time() - botStartTime)
             free = get_readable_file_size(disk_usage(DOWNLOAD_DIR).free)
-            message = 'No Active Downloads !\n___________________________'
-            message += f"\n<b>CPU:</b> {cpu_percent()}% | <b>FREE:</b> {free}" \
-                       f"\n<b>RAM:</b> {virtual_memory().percent}% | <b>UPTIME:</b> {currentTime}"
+            message = 'No Active !\n '
+            message += f"\n<b>CPU - </b> {cpu_percent()}  -  <b>FREE - </b> {free}" \
+                       f"\n<b>RAM - </b> {virtual_memory().percent}  -  <b>UPTIME - </b> {currentTime}"
             reply_message = sendMessage(message, context.bot, update.message)
             Thread(target=auto_delete_message, args=(context.bot, update.message, reply_message)).start()
             return
@@ -44,6 +44,6 @@ def status_pages(update, context):
 mirror_status_handler = CommandHandler(BotCommands.StatusCommand, mirror_status,
                                        filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
 
-status_pages_handler = CallbackQueryHandler(status_pages, pattern="status", run_async=True)
+status_pages_handler = CallbackQueryHandler(status_pages, pattern="Bot  -  status", run_async=True)
 dispatcher.add_handler(mirror_status_handler)
 dispatcher.add_handler(status_pages_handler)
