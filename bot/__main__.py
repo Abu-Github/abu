@@ -41,14 +41,14 @@ def stats(update, context):
     stats = f'<b>Commit Date - </b> {last_commit}\n\n'\
             f'<b>Bot Uptime - </b> {currentTime}\n\n'\
             f'<b>Total Disk Space - </b> {total}\n'\
-            f'<b>Used - </b> {used} | <b> - Free - </b> {free}\n\n'\
-            f'<b>Up - </b> {sent} | '\
+            f'<b>Used - </b> {used} ⥃ <b> - Free - </b> {free}\n\n'\
+            f'<b>Up - </b> {sent} ⥃ '\
             f'<b>Down - </b> {recv}\n\n'\
             f'<b>CPU - </b> {cpuUsage}  | '\
-            f'<b>RAM - </b> {mem_p}  | '\
+            f'<b>RAM - </b> {mem_p}  ⥃ '\
             f'<b>DISK - </b> {disk} \n\n'\
             f'<b>Total Memory - </b> {mem_t}\n'\
-            f'<b>Free - </b> {mem_a} | '\
+            f'<b>Free - </b> {mem_a} ⥃ '\
             f'<b>Used - </b> {mem_u}\n\n'
     heroku = getHerokuDetails(HEROKU_API_KEY, HEROKU_APP_NAME)
     if heroku: stats += heroku
@@ -57,20 +57,20 @@ def stats(update, context):
 
 def start(update, context):
     buttons = ButtonMaker()
-    buttons.buildbutton("Repo", "https://github.com/arshsisodiya/helios-mirror")
-    buttons.buildbutton("Support Group", "https://t.me/mirrorsociety")
+    buttons.buildbutton("Jackssmit", "https://t.me/jackssmit")
+    buttons.buildbutton("Project", "https://t.me/dumbleech")
     reply_markup = InlineKeyboardMarkup(buttons.build_menu(2))
     if CustomFilters.authorized_user(update) or CustomFilters.authorized_chat(update):
         start_string = f'''
-This bot can mirror all your links to Google Drive!
-Type /{BotCommands.HelpCommand} to get a list of available commands
+Join The Mirroring File Project Link in Down Blow Show Your ❤️ In Mirroring leeching Files - This Project Totally Free to Use and easy to Use like eating Pizza 🍕 Do u Know how to Eat Pizza 🍕 ?
+Just Type /{BotCommands.HelpCommand} to get a list of available commands
 '''
         sendMarkup(start_string, context.bot, update.message, reply_markup)
     else:
         sendMarkup('Bro Your Not Authorized user', context.bot, update.message, reply_markup)
 
 def restart(update, context):
-    restart_message = sendMessage("Restarting...", context.bot, update.message)
+    restart_message = sendMessage("Bot eating.... pizza 🍕", context.bot, update.message)
     if Interval:
         Interval[0].cancel()
     alive.kill()
@@ -211,7 +211,7 @@ def main():
                 if ospath.isfile(".restartmsg"):
                     with open(".restartmsg") as f:
                         chat_id, msg_id = map(int, f)
-                    msg = 'Restarted successfully!'
+                    msg = 'Bot finished pizza 🍕'
                 else:
                     msg = 'Bot Restarted!'
                 for tag, links in data.items():
@@ -219,13 +219,13 @@ def main():
                      for index, link in enumerate(links, start=1):
                          msg += f" <a href='{link}'>{index}</a> |"
                          if len(msg.encode()) > 4000:
-                             if 'Restarted successfully!' in msg and cid == chat_id:
+                             if 'Bot finished pizza 🍕' in msg and cid == chat_id:
                                  bot.editMessageText(msg, chat_id, msg_id, parse_mode='HTMl', disable_web_page_preview=True)
                                  osremove(".restartmsg")
                              else:
                                  bot.sendMessage(cid, msg, 'HTML')
                              msg = ''
-                if 'Restarted successfully!' in msg and cid == chat_id:
+                if 'Bot finished pizza 🍕' in msg and cid == chat_id:
                      bot.editMessageText(msg, chat_id, msg_id, parse_mode='HTMl', disable_web_page_preview=True)
                      osremove(".restartmsg")
                 else:
@@ -234,7 +234,7 @@ def main():
     if ospath.isfile(".restartmsg"):
         with open(".restartmsg") as f:
             chat_id, msg_id = map(int, f)
-        bot.edit_message_text("Restarted successfully!", chat_id, msg_id)
+        bot.edit_message_text("Bot finished pizza 🍕", chat_id, msg_id)
         osremove(".restartmsg")
 
     start_handler = CommandHandler(BotCommands.StartCommand, start, run_async=True)
