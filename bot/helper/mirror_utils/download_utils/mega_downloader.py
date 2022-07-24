@@ -75,7 +75,7 @@ class MegaDownloader:
             self.__onDownloadComplete()
             return
         if dlInfo['state'] == constants.State.TYPE_STATE_CANCELED:
-            self.__onDownloadError('Download stopped by user!')
+            self.__onDownloadError('Download Stopped by Bro ')
             return
         if dlInfo['state'] == constants.State.TYPE_STATE_FAILED:
             self.__onDownloadError(dlInfo['error_string'])
@@ -108,7 +108,7 @@ class MegaDownloader:
         file_name = info['name']
         file_size = info['total_length']
         if STOP_DUPLICATE and not self.__listener.isLeech:
-            LOGGER.info('Checking File/Folder if already in Drive')
+            LOGGER.info('Checking File/Folder Maybe Already Generated')
             mname = file_name
             if self.__listener.isZip:
                 mname = mname + ".zip"
@@ -120,7 +120,7 @@ class MegaDownloader:
             if mname is not None:
                 smsg, button = GoogleDriveHelper().drive_list(mname, True)
                 if smsg:
-                    msg1 = "File/Folder is already available in Drive.\nHere are the search results:"
+                    msg1 = "File/Folder Already Generated.\nResults - "
                     return sendMarkup(msg1, self.__listener.bot, self.__listener.message, button)
         if any([STORAGE_THRESHOLD, ZIP_UNZIP_LIMIT, MEGA_LIMIT]):
             arch = any([self.__listener.isZip, self.__listener.extract])
@@ -145,5 +145,5 @@ class MegaDownloader:
         LOGGER.info(f'Mega download started with gid: {gid}')
 
     def cancel_download(self):
-        LOGGER.info(f'Cancelling download on user request: {self.gid}')
+        LOGGER.info(f'Cancelling download Request By - {self.gid}')
         self.__mega_client.cancelDl(self.gid)
