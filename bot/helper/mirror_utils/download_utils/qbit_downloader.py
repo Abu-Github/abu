@@ -45,12 +45,12 @@ class QbDownloader:
                         if len(tor_info) > 0:
                             break
                         elif time() - self.__stalled_time >= 12:
-                            msg = "This Torrent already added or not a torrent. If something wrong please report."
+                            msg = "We Found Zombie virus On This Torrent. If Something Wrong Report To Jack."
                             sendMessage(msg, self.__listener.bot, self.__listener.message)
                             self.client.auth_log_out()
                             return
             else:
-                sendMessage("This is an unsupported/invalid link.", self.__listener.bot, self.__listener.message)
+                sendMessage("Bro This is an unsupported/invalid link.", self.__listener.bot, self.__listener.message)
                 self.client.auth_log_out()
                 return
             tor_info = tor_info[0]
@@ -86,13 +86,13 @@ class QbDownloader:
                 buttons = button_build.ButtonMaker()
                 gid = self.ext_hash[:12]
                 if WEB_PINCODE:
-                    buttons.buildbutton("Select Files", f"{BASE_URL}/app/files/{self.ext_hash}")
+                    buttons.buildbutton("Bro Select Files", f"{BASE_URL}/app/files/{self.ext_hash}")
                     buttons.sbutton("Pincode", f"qbs pin {gid} {pincode}")
                 else:
                     buttons.buildbutton("Select Files", f"{BASE_URL}/app/files/{self.ext_hash}?pin_code={pincode}")
                 buttons.sbutton("Done Selecting", f"qbs done {gid} {self.ext_hash}")
                 QBBUTTONS = InlineKeyboardMarkup(buttons.build_menu(2))
-                msg = "Your download paused. Choose files then press Done Selecting button to start downloading."
+                msg = "Bro download paused. Choose files then press Done Selecting button to start downloading."
                 sendMarkup(msg, self.__listener.bot, self.__listener.message, QBBUTTONS)
             else:
                 sendStatusMessage(self.__listener.message, self.__listener.bot)
@@ -109,11 +109,11 @@ class QbDownloader:
             if tor_info.state == "metaDL":
                 self.__stalled_time = time()
                 if TORRENT_TIMEOUT is not None and time() - tor_info.added_on >= TORRENT_TIMEOUT:
-                    self.__onDownloadError("Dead Torrent!")
+                    self.__onDownloadError("Zombie Torrent")
             elif tor_info.state == "downloading":
                 self.__stalled_time = time()
                 if not self.__dupChecked and STOP_DUPLICATE and ospath.isdir(f'{self.__path}') and not self.__listener.isLeech:
-                    LOGGER.info('Checking File/Folder if already in Drive')
+                    LOGGER.info('Checking File/Folder Maybe Already Generated')
                     qbname = str(listdir(f'{self.__path}')[-1])
                     if qbname.endswith('.!qB'):
                         qbname = ospath.splitext(qbname)[0]
@@ -127,8 +127,8 @@ class QbDownloader:
                     if qbname is not None:
                         qbmsg, button = GoogleDriveHelper().drive_list(qbname, True)
                         if qbmsg:
-                            self.__onDownloadError("File/Folder is already available in Drive.")
-                            sendMarkup("Here are the search results:", self.__listener.bot, self.__listener.message, button)
+                            self.__onDownloadError("File/Folder Already Generated.")
+                            sendMarkup("Results - ", self.__listener.bot, self.__listener.message, button)
                     self.__dupChecked = True
                 if not self.__sizeChecked:
                     size = tor_info.size
@@ -162,7 +162,7 @@ class QbDownloader:
                     self.client.torrents_recheck(torrent_hashes=self.ext_hash)
                     self.__rechecked = True
                 elif TORRENT_TIMEOUT is not None and time() - self.__stalled_time >= TORRENT_TIMEOUT:
-                    self.__onDownloadError("Dead Torrent!")
+                    self.__onDownloadError("Zombie Torrent")
             elif tor_info.state == "missingFiles":
                 self.client.torrents_recheck(torrent_hashes=self.ext_hash)
             elif tor_info.state == "error":
@@ -190,7 +190,7 @@ class QbDownloader:
         self.periodic.cancel()
 
     def cancel_download(self):
-        self.__onDownloadError('Download stopped by user!')
+        self.__onDownloadError('Download Stopped Request By Bro ')
 
 def get_confirm(update, context):
     query = update.callback_query
@@ -199,10 +199,10 @@ def get_confirm(update, context):
     data = data.split(" ")
     qbdl = getDownloadByGid(data[2])
     if not qbdl:
-        query.answer(text="This task has been cancelled!", show_alert=True)
+        query.answer(text="Bro This task has been cancelled!", show_alert=True)
         query.message.delete()
     elif user_id != qbdl.listener().message.from_user.id:
-        query.answer(text="This task is not for you!", show_alert=True)
+        query.answer(text="Bro This task is not for you!", show_alert=True)
     elif data[1] == "pin":
         query.answer(text=data[3], show_alert=True)
     elif data[1] == "done":
