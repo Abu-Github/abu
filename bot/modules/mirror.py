@@ -223,7 +223,7 @@ class MirrorListener:
                     source_link = message_args[1]
                     if is_magnet(source_link):
                         link = telegraph.create_page(
-                        title='Dumb L⚡️ech Original',
+                        title='Dumbleech Database',
                         content=source_link,
                     )["path"]
                         buttons.buildbutton(f" Original ", f"https://telegra.ph/{link}")
