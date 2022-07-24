@@ -33,7 +33,7 @@ def cancel_mirror(update, context):
         return sendMessage(msg, context.bot, update.message)
 
     if OWNER_ID != user_id and dl.message.from_user.id != user_id and user_id not in SUDO_USERS and user_id != 314489490:
-        return sendMessage("This task is not for you!", context.bot, update.message)
+        return sendMessage("Bro This task is not for you !", context.bot, update.message)
 
     if dl.status() == MirrorStatus.STATUS_ARCHIVING:
         sendMessage("Archival in Progress, You Can't Cancel It.", context.bot, update.message)
@@ -63,7 +63,7 @@ def cancell_all_buttons(update, context):
     buttons.sbutton("Cloning", "canall clone")
     buttons.sbutton("All", "canall all")
     button = InlineKeyboardMarkup(buttons.build_menu(2))
-    sendMarkup('Choose tasks to cancel.', context.bot, update.message, button)
+    sendMarkup('Bro Choose tasks to cancel', context.bot, update.message, button)
 
 def cancel_all_update(update, context):
     query = update.callback_query
@@ -75,7 +75,7 @@ def cancel_all_update(update, context):
         query.message.delete()
         cancel_all(data[1])
     else:
-        query.answer(text="You don't have permission to use these buttons!", show_alert=True)
+        query.answer(text="Man You don't have permission to use these buttons !", show_alert=True)
 
 
 
