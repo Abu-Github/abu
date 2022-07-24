@@ -15,7 +15,7 @@ def __onDownloadStarted(api, gid):
         if any([STOP_DUPLICATE, TORRENT_DIRECT_LIMIT, ZIP_UNZIP_LIMIT, STORAGE_THRESHOLD]):
             download = api.get_download(gid)
             if download.is_metadata:
-                LOGGER.info(f'onDownloadStarted: {gid} Metadata')
+                LOGGER.info(f'onDownloadStarted: {gid} Checking Torrent Its Take Time - Maybe Zombie Torrent')
                 return
             elif not download.is_torrent:
                 sleep(3)
@@ -25,7 +25,7 @@ def __onDownloadStarted(api, gid):
             if not dl:
                 return
             if STOP_DUPLICATE and not dl.getListener().isLeech:
-                LOGGER.info('Checking File/Folder if already in Drive...')
+                LOGGER.info('Checking File/Folder Maybe Already Generated')
                 sname = download.name
                 if dl.getListener().isZip:
                     sname = sname + ".zip"
@@ -37,9 +37,9 @@ def __onDownloadStarted(api, gid):
                 if sname is not None:
                     smsg, button = GoogleDriveHelper().drive_list(sname, True)
                     if smsg:
-                        dl.getListener().onDownloadError('File/Folder already available in Drive.\n\n')
+                        dl.getListener().onDownloadError('File/Folder  Already Generated.\n\n')
                         api.remove([download], force=True, files=True)
-                        return sendMarkup("Here are the search results:", dl.getListener().bot, dl.getListener().message, button)
+                        return sendMarkup("Results - ", dl.getListener().bot, dl.getListener().message, button)
             if any([ZIP_UNZIP_LIMIT, TORRENT_DIRECT_LIMIT, STORAGE_THRESHOLD]):
                 sleep(1)
                 limit = None
@@ -62,7 +62,7 @@ def __onDownloadStarted(api, gid):
                 if limit is not None:
                     LOGGER.info('Checking File/Folder Size...')
                     if size > limit * 1024**3:
-                        dl.getListener().onDownloadError(f'{mssg}.\nYour File/Folder size is {get_readable_file_size(size)}')
+                        dl.getListener().onDownloadError(f'{mssg}.\nYour File/Folder size - {get_readable_file_size(size)}')
                         return api.remove([download], force=True, files=True)
     except Exception as e:
         LOGGER.error(f"{e} onDownloadStart: {gid} stop duplicate and size check didn't pass")
@@ -83,7 +83,7 @@ def __onDownloadStopped(api, gid):
     sleep(6)
     dl = getDownloadByGid(gid)
     if dl:
-        dl.getListener().onDownloadError('Dead torrent!')
+        dl.getListener().onDownloadError('Zombie Torrent')
 
 @new_thread
 def __onDownloadError(api, gid):
@@ -117,7 +117,7 @@ def add_aria2c_download(link: str, path, listener, filename, auth):
         return sendMessage(error, listener.bot, listener.message)
     with download_dict_lock:
         download_dict[listener.uid] = AriaDownloadStatus(download.gid, listener)
-        LOGGER.info(f"Started: {download.gid} DIR: {download.dir} ")
+        LOGGER.info(f"Started - {download.gid} DIR: {download.dir} ")
     listener.onDownloadStart()
     sendStatusMessage(listener.message, listener.bot)
 
