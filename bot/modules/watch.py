@@ -235,10 +235,10 @@ def select_format(update, context):
     try:
         task_info = listener_dict[task_id]
     except:
-        return editMessage("This is an old task", msg)
+        return editMessage("Bro This is an old task", msg)
     uid = task_info[1]
     if user_id != uid and not CustomFilters._owner_query(user_id):
-        return query.answer(text="This task is not for you!", show_alert=True)
+        return query.answer(text="Bro This task is not for you!", show_alert=True)
     elif data[2] == "dict":
         query.answer()
         qual = data[3]
@@ -246,7 +246,7 @@ def select_format(update, context):
         return
     elif data[2] == "back":
         query.answer()
-        return editMessage('Choose Video Quality:', msg, task_info[4])
+        return editMessage('Bro Choose Video Quality:', msg, task_info[4])
     elif data[2] == "audio":
         query.answer()
         if len(data) == 4:
@@ -257,7 +257,7 @@ def select_format(update, context):
         return
     elif data[2] == "cancel":
         query.answer()
-        editMessage('Task has been cancelled.', msg)
+        editMessage('Bro Task has been cancelled.', msg)
     else:
         query.answer()
         listener = task_info[0]
@@ -281,7 +281,7 @@ def _auto_cancel(msg, msg_id):
     sleep(120)
     try:
         del listener_dict[msg_id]
-        editMessage('Timed out! Task has been cancelled.', msg)
+        editMessage('Ooh Man Timed out! Task has been cancelled ', msg)
     except:
         pass
 
