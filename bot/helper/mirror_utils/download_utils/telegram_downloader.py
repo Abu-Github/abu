@@ -101,10 +101,10 @@ class TelegramDownloadHelper:
             if download:
                 size = media.file_size
                 if STOP_DUPLICATE and not self.__listener.isLeech:
-                    LOGGER.info('Checking File/Folder if already in Drive...')
+                    LOGGER.info('Checking File/Folder Maybe Already Generated')
                     smsg, button = GoogleDriveHelper().drive_list(name, True, True)
                     if smsg:
-                        msg = "File/Folder is already available in Drive.\nHere are the search results:"
+                        msg = "File/Folder  Already Generated.\nResults - "
                         self.__onEventEnd()
                         return sendMarkup(msg, self.__listener.bot, self.__listener.message, button)
                 if STORAGE_THRESHOLD is not None:
@@ -123,6 +123,6 @@ class TelegramDownloadHelper:
             self.__onDownloadError('No document in the replied message')
 
     def cancel_download(self):
-        LOGGER.info(f'Cancelling download on user request: {self.__id}')
+        LOGGER.info(f'Cancelling download Request By Bro {self.__id}')
         self.__is_cancelled = True
-        self.__onDownloadError('Cancelled by user!')
+        self.__onDownloadError('Cancelled by Bro')
